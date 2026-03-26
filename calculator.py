@@ -1,8 +1,8 @@
 print("=== Калькулятор v1.0 ===")
 finish = "да"
 
-try:
-    def calculate(a, b, op):
+
+def calculate(a: float, b: float, op: str) -> float:
         match op:
             case "+":
                 return a + b
@@ -11,24 +11,33 @@ try:
             case "*":
                 return a * b
             case "/":
+                if b == 0:
+                    raise ZeroDivisionError("Деление на ноль невозможно!")
                 return a / b
             case "**":
                 return a ** b
+            case _:
+                raise ValueError(f"Неизвестная операция: {op}")
 
 
-    while finish == "да":
-        a = int(input("Введите первое число:"))
-        operation = input("Введите операцию (+ , - , * , / , **):")
-        b = int(input("Введите второе число:"))
-
-        if operation not in ['+', '-', '*', '/', '**']:
-            raise ValueError("Следует указать операцию из предложенных")
+while True:
+    try:
+        a = float(input("Введите первое число:").strip())
+        operation = input("Введите операцию (+ , - , * , / , **):").strip()
+        b = float(input("Введите второе число:").strip())
         
-        
-        print(calculate(a, b, operation))
-        finish = input("Хотите продолжить? (да/нет):")
-except ZeroDivisionError:
-    print("Ошибка деления на ноль.")
-except ValueError:
-    print("Некорректный ввод данных")
+        result = calculate(a, b, operation)
+        print(f"Результат: {result}")
+
+    except ZeroDivisionError as e:
+        print(f"❌ Ошибка: {e}")
+    except ValueError as e:
+        print(f"❌ Ошибка: {e} (проверьте, что ввели число и правильную операцию)")
+    except Exception as e:
+        print(f"❌ Неизвестная ошибка: {e}")
+
+    finish = input("\nХотите продолжить? (да/нет): ").strip().lower()
+    if finish not in ["да", "yes", "y", "д"]:
+        print("Калькулятор завершён. До встречи! 👋")
+        break
 
