@@ -43,7 +43,7 @@ def main():
             
             result = calculate(a, b, operation)
 
-            print(f"Результат: {result:.4f}" if isinstance(result, float) else f"Результат: {result}")  # если вещещственное число, то отображаем 4 знака после запятой
+            print(f"Результат: {result:.4f}" if isinstance(result, float) else f"Результат: {result}")  # если вещественное число, то отображаем 4 знака после запятой
             
         except Exception as e:
             print(f"Ошибка: {e}")
