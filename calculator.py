@@ -1,43 +1,57 @@
-print("=== Калькулятор v1.0 ===")
-finish = "да"
+
+OPERATIONS = {"+", "-", "*", "/", "**"}
 
 
 def calculate(a: float, b: float, op: str) -> float:
-        match op:
-            case "+":
-                return a + b
-            case "-":
-                return a - b
-            case "*":
-                return a * b
-            case "/":
-                if b == 0:
-                    raise ZeroDivisionError("Деление на ноль невозможно!")
-                return a / b
-            case "**":
-                return a ** b
-            case _:
-                raise ValueError(f"Неизвестная операция: {op}")
+    """Функция выполняет арифметическую операцию и возвращает результат"""
+
+    match op:
+        case "+": return a + b
+        case "-": return a - b
+        case "*": return a * b
+        case "/":
+            if b == 0:
+                raise ZeroDivisionError("Деление на ноль невозможно!")
+            return a / b
+        case "**": return a ** b
+        case _:
+            raise ValueError(f"Неизвестная операция: {op}")
 
 
-while True:
-    try:
-        a = float(input("Введите первое число:").strip())
-        operation = input("Введите операцию (+ , - , * , / , **):").strip()
-        b = float(input("Введите второе число:").strip())
+def get_number(txt: str) -> float:
+    """Функция запрашивает число"""
+
+    while True:
+        try:
+            return float(input(txt).strip())
+        except ValueError:
+            print("Пожалуйста, введите число!")
+
+
+def main():
+
+    print("=== Калькулятор ===")
+
+    while True:
+        try:
+            a = get_number("Введите первое число: ")
+            operation = input("Введите операцию (+ , - , * , / , **): ").strip()
+            b = get_number("Введите второе число: ")
+
+            if operation not in OPERATIONS:
+                raise ValueError(f"Неизвестная операция: {operation}")
+            
+            result = calculate(a, b, operation)
+
+            print(f"Результат: {result:.4f}" if isinstance(result, float) else f"Результат: {result}")  # если вещещственное число, то отображаем 4 знака после запятой
+            
+        except Exception as e:
+            print(f"Ошибка: {e}")
         
-        result = calculate(a, b, operation)
-        print(f"Результат: {result}")
+        if input("\nПродолжить? (да/нет): ").strip().lower() not in ["да", "yes", "y", "д", "lf"]:
+            print("Калькулятор завершён. До встречи!")
+            break
 
-    except ZeroDivisionError as e:
-        print(f"❌ Ошибка: {e}")
-    except ValueError as e:
-        print(f"❌ Ошибка: {e} (проверьте, что ввели число и правильную операцию)")
-    except Exception as e:
-        print(f"❌ Неизвестная ошибка: {e}")
 
-    finish = input("\nХотите продолжить? (да/нет): ").strip().lower()
-    if finish not in ["да", "yes", "y", "д"]:
-        print("Калькулятор завершён. До встречи! 👋")
-        break
-
+if __name__ == "__main__":
+    main()
